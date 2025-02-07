@@ -10,13 +10,14 @@ public class Books {
     private String author;
     private boolean upForGrabs;
 
-    // This constructor allows creation of an object from this class into
+    // This constructor allows creation of a Books object and initializes fields
     public Books(String title, String author) {
         this.title = title;
         this.author = author;
         this.upForGrabs = true; // book is available by default
     }
 
+    /* ============================================================================ */
     // Get Set (GO), a small section to include any setters/getters we'll need for retrieving data
     public String getTitle() {
         return title;
