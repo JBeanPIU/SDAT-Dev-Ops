@@ -41,7 +41,7 @@ public class LibraryManagement {
 
     public void returnBook(String username, String bookTitle) {
         User user = users.get(username.toLowerCase());
-        Books book = catalog.get(bookTitle.toLowerCase());
+        Books book = catalog.get(bookTitle.toLowerCase()); // Books can be nabbed without being case-sensitive
         if (user != null && book != null && user.getBorrowedBooks().contains(book)) { // Check if user is borrowing book
             user.returnBook(book);
             System.out.println("Book returned successfully!");
@@ -54,7 +54,7 @@ public class LibraryManagement {
         String queryLower = query.toLowerCase();
         return catalog.values().stream()
                 .filter(book -> book.getTitle().toLowerCase().contains(queryLower) || book.getAuthor().toLowerCase().contains(queryLower))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // Makes it so you don't need to be case-sensitive when finding books by name
     }
 
     public boolean loginUser(String username, String password) {
@@ -76,28 +76,36 @@ public class LibraryManagement {
     }
 
     /* ======================================================= */
-    // User menu integration, this is the main loop of the program and allows you to sign in, create accounts, logout, etc.
+    // User menu integration, this is the main loop of the program and allows you to sign in, create accounts, logout, etc
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         LibraryManagement library = new LibraryManagement();
 
+        // Time to add a few random books!
         library.addBook(new Books("We Share Everything", "Robert Munsch"));
         library.addBook(new Books("Moloka'i", "Alan Brennett"));
         library.addBook(new Books("Water for Elephants", "Sara Gruen"));
 
+        // I've issued some books here to test if the default accounts will have them
         library.issueBook("JBean", "We Share Everything");
         library.issueBook("pachi", "Water for Elephants");
 
+        // Return pachi's book, if properly done only JBean should have a book, that one being 'We Share Everything'
         library.returnBook("pachi", "Water for Elephants");
 
+        /* ======================== */
+        // Just like the books, using some pre-made accounts if you don't feel like creating your own!
         User user1 = new User("JBean", "abc123", 5);
         User user2 = new User("icecold", "pword", 4);
         User user3 = new User("pachi", "broccoli", 6);
 
+        // Registering users here
         library.registerUser(user1);
         library.registerUser(user2);
         library.registerUser(user3);
 
+        /* ======================== */
+        // The main program loop, a user interface letting you sign in, create new user, or exit the program
         while (true) {
             System.out.println("===== \uD83D\uDCDA Library Management System \uD83D\uDD8A\uFE0F =====");
             System.out.println("1. Sign In!");
@@ -139,6 +147,7 @@ public class LibraryManagement {
         }
     }
 
+    // The user menu that you can look at when signed in, this includes a search feature, borrow books, return books, or log out option
     private static void showUserMenu(Scanner scanner, LibraryManagement library) {
         while (true) {
             System.out.println("\n===== User Menu =====");
